@@ -2,7 +2,7 @@ const express = require('express')
 const session = require('express-session')
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-const {GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, HOST, PORT, SECRET} = require('./config/config')
+const {GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, HOST, PORT, SECRET, REDIRECT_URI} = require('./config/config')
 const app = express()
 
 app.set('view engine', 'ejs')
@@ -52,7 +52,7 @@ passport.deserializeUser((obj, cb) => {
 passport.use(new GoogleStrategy({
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: `http://${HOST}:${PORT}/callback`
+        callbackURL: REDIRECT_URI
     },
     (accessToken, refreshToken, profile, done) => {
         userProfile = profile
